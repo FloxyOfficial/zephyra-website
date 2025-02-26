@@ -180,11 +180,11 @@
       // Update status banner based on the localStatus variable
       var statusBanner = document.querySelector(".status-banner");
       if (localStatus.includes("🟢")) {
-        statusBanner.innerText = "ZEPHYRA STATUS : FULLY FUNCTIONAL";
+        statusBanner.innerText = "ZEPHYRA STATUS : FULLY OPERATIONAL";
         statusBanner.style.color = "#39FF14"; // Neon green
         statusBanner.style.boxShadow = "0 0 10px #39FF14";
       } else if (localStatus.includes("🔴")) {
-        statusBanner.innerText = "ZEPHYRA STATUS : NOT FUNCTIONAL";
+        statusBanner.innerText = "ZEPHYRA STATUS : DOWN";
         statusBanner.style.color = "#FF073A"; // Bright red
         statusBanner.style.boxShadow = "0 0 10px #FF073A";
       }
