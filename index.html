@@ -1,183 +1,216 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zephyra - Innovate Faster</title>
-    <style>
-        /* General page styling */
-        body {
-            margin: 0;
-            padding: 0;
-            background: #0a0615;
-            font-family: 'Poppins', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            text-align: center;
-            color: white;
-            overflow: hidden;
-            animation: fadeIn 1.5s ease-in-out;
-        }
-        
-        /* Fade-in animation for page load */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
-        }
-        
-        /* Background animation */
-        .background {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at center, rgba(128, 0, 255, 0.4), transparent);
-            animation: smoothBg 12s infinite alternate ease-in-out;
-        }
-        
-        /* Creates a smooth animated background movement */
-        @keyframes smoothBg {
-            0% { transform: scale(1.1) translateX(-10px) translateY(-10px); opacity: 0.8; }
-            50% { transform: scale(1.15) translateX(10px) translateY(10px); opacity: 1; }
-            100% { transform: scale(1.1) translateX(-10px) translateY(-10px); opacity: 0.8; }
-        }
-        
-        /* Container styling */
-        .container {
-            position: relative;
-            z-index: 2;
-            animation: slideIn 1.5s ease-in-out;
-            background: rgba(0, 0, 0, 0.7);
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0px 0px 25px rgba(128, 0, 255, 0.6);
-            backdrop-filter: blur(10px);
-            width: 60%;
-            max-width: 500px;
-        }
-        
-        /* Responsive styling for mobile */
-        @media (max-width: 768px) {
-            .container {
-                width: 90%;
-                padding: 20px;
-            }
-            h1 {
-                font-size: 2.2em;
-            }
-            p {
-                font-size: 1em;
-            }
-            .button {
-                padding: 12px 20px;
-                font-size: 1em;
-            }
-        }
-        
-        /* Slide-in animation for the main container */
-        @keyframes slideIn {
-            from { transform: translateY(-30px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        
-        /* Text and header styling */
-        h1 {
-            font-size: 3em;
-            font-weight: bold;
-            text-shadow: 0px 0px 15px rgba(128, 0, 255, 0.7);
-        }
-        
-        p {
-            font-size: 1.2em;
-            margin-bottom: 30px;
-            opacity: 1;
-            animation: fadeInText 1.8s ease-in-out 0.5s forwards;
-        }
-        
-        /* Button container */
-        .buttons {
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-            flex-wrap: wrap;
-            opacity: 1;
-            animation: fadeInButtons 2.2s ease-in-out 1.2s forwards;
-        }
-        
-        /* Fade-in animation for buttons */
-        @keyframes fadeInButtons {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        /* General button styling */
-        .button {
-            padding: 15px 30px;
-            font-size: 1.1em;
-            border: none;
-            cursor: pointer;
-            border-radius: 10px;
-            transition: 0.3s ease-in-out;
-            transform: scale(1);
-            display: none; /* Initially hidden, shown via JavaScript */
-            width: 80%;
-            max-width: 300px;
-        }
-        
-        .button:hover {
-            transform: scale(1.05);
-        }
-        
-        /* Windows button styling */
-        .pc-button {
-            background: #5e00ff;
-            color: white;
-            box-shadow: 0px 0px 15px rgba(94, 0, 255, 0.7);
-        }
-        .pc-button:hover {
-            background: #4b00cc;
-            box-shadow: 0px 0px 20px rgba(94, 0, 255, 0.9);
-        }
-        
-        /* Android & iOS button styling */
-        .android-button, .ios-button {
-            background: gray;
-            color: white;
-            cursor: not-allowed;
-            box-shadow: 0px 0px 10px rgba(128, 128, 128, 0.5);
-        }
-    </style>
-    <script>
-        window.onload = function() {
-            const userAgent = navigator.userAgent.toLowerCase();
-            if (/android/i.test(userAgent)) {
-                document.getElementById('mobile-download').style.display = 'inline-flex';
-            } else if (/iphone|ipad/i.test(userAgent)) {
-                document.getElementById('ios-download').style.display = 'inline-flex';
-            } else {
-                document.getElementById('pc-download').style.display = 'inline-flex';
-            }
-        };
-    </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zephyra - Innovate Faster</title>
+  <style>
+    /* General page styling */
+    body {
+      margin: 0;
+      padding: 0;
+      background: #0a0615;
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+      color: white;
+      overflow: hidden;
+      animation: fadeIn 1.5s ease-in-out;
+    }
+    
+    /* Fade-in animation for page load */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    
+    /* Background animation */
+    .background {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at center, rgba(128, 0, 255, 0.4), transparent);
+      animation: smoothBg 12s infinite alternate ease-in-out;
+    }
+    
+    @keyframes smoothBg {
+      0% { transform: scale(1.1) translateX(-10px) translateY(-10px); opacity: 0.8; }
+      50% { transform: scale(1.15) translateX(10px) translateY(10px); opacity: 1; }
+      100% { transform: scale(1.1) translateX(-10px) translateY(-10px); opacity: 0.8; }
+    }
+    
+    /* Container styling */
+    .container {
+      position: relative;
+      z-index: 2;
+      animation: slideIn 1.5s ease-in-out;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0px 0px 25px rgba(128, 0, 255, 0.6);
+      backdrop-filter: blur(10px);
+      width: 60%;
+      max-width: 500px;
+    }
+    
+    /* Status banner styling */
+    .status-banner {
+      font-size: 1.2em;
+      margin-bottom: 15px;
+      padding: 10px 15px;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 5px;
+      font-weight: bold;
+      transition: color 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    /* Responsive styling for mobile */
+    @media (max-width: 768px) {
+      .container {
+        width: 90%;
+        padding: 20px;
+      }
+      h1 {
+        font-size: 2.2em;
+      }
+      p {
+        font-size: 1em;
+      }
+      .button {
+        padding: 12px 20px;
+        font-size: 1em;
+      }
+    }
+    
+    /* Slide-in animation for the main container */
+    @keyframes slideIn {
+      from { transform: translateY(-30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    
+    /* Header styling */
+    h1 {
+      font-size: 3em;
+      font-weight: bold;
+      text-shadow: 0px 0px 15px rgba(128, 0, 255, 0.7);
+    }
+    
+    p {
+      font-size: 1.2em;
+      margin-bottom: 30px;
+      animation: fadeInText 1.8s ease-in-out 0.5s forwards;
+    }
+    
+    /* Button container */
+    .buttons {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      animation: fadeInButtons 2.2s ease-in-out 1.2s forwards;
+    }
+    
+    @keyframes fadeInButtons {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* Button styling */
+    .button {
+      padding: 15px 30px;
+      font-size: 1.1em;
+      border: none;
+      cursor: pointer;
+      border-radius: 10px;
+      transition: 0.3s ease-in-out;
+      transform: scale(1);
+      display: none;
+      width: 80%;
+      max-width: 300px;
+    }
+    
+    .button:hover {
+      transform: scale(1.05);
+    }
+    
+    /* Windows button styling */
+    .pc-button {
+      background: #5e00ff;
+      color: white;
+      box-shadow: 0px 0px 15px rgba(94, 0, 255, 0.7);
+    }
+    .pc-button:hover {
+      background: #4b00cc;
+      box-shadow: 0px 0px 20px rgba(94, 0, 255, 0.9);
+    }
+    
+    /* Android & iOS button styling */
+    .android-button, .ios-button {
+      background: gray;
+      color: white;
+      cursor: not-allowed;
+      box-shadow: 0px 0px 10px rgba(128, 128, 128, 0.5);
+    }
+  </style>
+  <script>
+    window.onload = function() {
+      // Disable right-click context menu
+      document.addEventListener("contextmenu", function(e) {
+        e.preventDefault();
+      }, false);
+      
+      // Display appropriate download button based on user agent
+      const userAgent = navigator.userAgent.toLowerCase();
+      if (/android/i.test(userAgent)) {
+        document.getElementById('mobile-download').style.display = 'inline-flex';
+      } else if (/iphone|ipad/i.test(userAgent)) {
+        document.getElementById('ios-download').style.display = 'inline-flex';
+      } else {
+        document.getElementById('pc-download').style.display = 'inline-flex';
+      }
+      
+      // Local status variable (customize this easily)
+      var localStatus = "🟢"; // Change to "🔴" if not functional
+      
+      // Update status banner based on the localStatus variable
+      var statusBanner = document.querySelector(".status-banner");
+      if (localStatus.includes("🟢")) {
+        statusBanner.innerText = "ZEPHYRA STATUS : FULLY FUNCTIONAL";
+        statusBanner.style.color = "#39FF14"; // Neon green
+        statusBanner.style.boxShadow = "0 0 10px #39FF14";
+      } else if (localStatus.includes("🔴")) {
+        statusBanner.innerText = "ZEPHYRA STATUS : NOT FUNCTIONAL";
+        statusBanner.style.color = "#FF073A"; // Bright red
+        statusBanner.style.boxShadow = "0 0 10px #FF073A";
+      }
+    };
+  </script>
 </head>
 <body>
-    <div class="background"></div>
-    <div class="container">
-        <h1>Welcome to Zephyra</h1>
-        <p>Zephyra is a <strong>Roblox Executor Level 8</strong> utilizing the powerful <strong>WYN API</strong>.<br>Currently in <strong>Beta</strong>, designed for innovative and smooth execution.</p>
-        <div class="buttons">
-            <!-- Windows download button -->
-            <button class="button pc-button" id="pc-download" onclick="location.href='https://github.com/FloxyOfficial/zephyra/raw/refs/heads/main/ZephyraBeta4.1.1.zip'">Download Zephyra Windows</button>
-            
-            <!-- Android download button (disabled) -->
-            <button class="button android-button" id="mobile-download" disabled>Download Zephyra Android (Coming Soon)</button>
-            
-            <!-- iOS download button (disabled) -->
-            <button class="button ios-button" id="ios-download" disabled>Download Zephyra iOS (Coming Soon)</button>
-        </div>
+  <div class="background"></div>
+  <div class="container">
+    <div class="status-banner">Loading status...</div>
+    <h1>Welcome to Zephyra</h1>
+    <p>
+      Zephyra is a <strong>Roblox Executor Level 8</strong> utilizing the powerful 
+      <strong>WYN API</strong>.<br>Currently in <strong>Beta</strong>, designed for innovative 
+      and smooth execution.
+    </p>
+    <div class="buttons">
+      <!-- Windows download button -->
+      <button class="button pc-button" id="pc-download" onclick="location.href='https://github.com/FloxyOfficial/zephyra/raw/refs/heads/main/ZephyraBeta4.1.1.zip'">Download Zephyra Windows</button>
+      
+      <!-- Android download button (disabled) -->
+      <button class="button android-button" id="mobile-download" disabled>Download Zephyra Android (Coming Soon)</button>
+      
+      <!-- iOS download button (disabled) -->
+      <button class="button ios-button" id="ios-download" disabled>Download Zephyra iOS (Coming Soon)</button>
     </div>
+  </div>
 </body>
 </html>
