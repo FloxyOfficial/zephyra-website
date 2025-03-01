@@ -175,7 +175,7 @@
       }
       
       // Local status variable (customize this easily)
-      var localStatus = "🔴"; // Change to "🔴" if not functional if functional then "🟢"
+      var localStatus = "🟠"; // Use "🟠" to indicate working on older version
       
       // Update status banner based on the localStatus variable
       var statusBanner = document.querySelector(".status-banner");
@@ -183,6 +183,10 @@
         statusBanner.innerText = "ZEPHYRA STATUS : FULLY OPERATIONAL";
         statusBanner.style.color = "#39FF14"; // Neon green
         statusBanner.style.boxShadow = "0 0 10px #39FF14";
+      } else if (localStatus.includes("🟠")) {
+        statusBanner.innerText = "WORKING ON OLDER VERSION OF ROBLOX";
+        statusBanner.style.color = "orange";
+        statusBanner.style.boxShadow = "0 0 10px orange";
       } else if (localStatus.includes("🔴")) {
         statusBanner.innerText = "ZEPHYRA STATUS : DOWN";
         statusBanner.style.color = "#FF073A"; // Bright red
