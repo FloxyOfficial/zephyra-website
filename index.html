@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-  <title>Zephyra V2 – Roblox Executor (Free)</title>
+  <title>Zephyra V2)</title>
 
   <!-- Font Awesome for icons -->
   <link
@@ -843,8 +843,13 @@
     </footer>
   </div>
 
-  <!-- JavaScript for Countdown + FAQ Accordion -->
+  <!-- JavaScript for Countdown, Right-Click Disable & FAQ Accordion -->
   <script>
+    // Disable right-click (context menu)
+    document.addEventListener("contextmenu", (e) => {
+      e.preventDefault();
+    });
+
     // =====================================================
     // COUNTDOWN TO March 31, 2025 @ 18:00 CEST (GMT+2)
     // =====================================================
@@ -857,7 +862,6 @@
     const countSeconds = document.getElementById("countSeconds");
 
     // Target Date: 31 Mar 2025 18:00:00 GMT+2
-    // You can specify like "Mar 31, 2025 18:00:00 GMT+0200":
     const targetDate = new Date("Mar 31, 2025 18:00:00 GMT+0200").getTime();
 
     function updateCountdown() {
