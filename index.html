@@ -33,7 +33,6 @@
       box-sizing: border-box;
     }
     body {
-      /* NEW BACKGROUND TAKEN FROM THE CLOUDY PAGE */
       background-color: #050505;
       background-image:
         radial-gradient(circle at 15% 15%, rgba(0, 112, 243, 0.08), transparent 35%),
@@ -45,7 +44,6 @@
       background-attachment: fixed;
       background-position: center;
       min-height: 100vh;
-
       font-family: "Inter", sans-serif;
       color: #f0f0f0;
       overflow-x: hidden;
@@ -66,32 +64,6 @@
       scroll-behavior: smooth;
     }
 
-    /* REMOVE (COMMENT OUT) THE OLD ANIMATED GRADIENT BACKGROUND 
-       OR ANY body::before RULES THAT WE DON'T NEED ANYMORE
-       
-    body::before {
-      content: "";
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      z-index: -1;
-      background: linear-gradient(45deg, #090909, #151515, #202020, #151515, #090909);
-      background-size: 600% 600%;
-      animation: gradientAnimation 15s ease infinite;
-    }
-    @keyframes gradientAnimation {
-      0% {
-        background-position: 0% 50%;
-      }
-      50% {
-        background-position: 100% 50%;
-      }
-      100% {
-        background-position: 0% 50%;
-      }
-    }
-    */
-
     /* SMOOTH FADE-IN ANIMATION */
     @keyframes fadeIn {
       from {
@@ -110,6 +82,73 @@
     }
     .transition {
       transition: all 0.3s ease;
+    }
+
+    /***************************************************
+      COUNTDOWN SCREEN (shown until 31 Mar 2025 18:00 CEST)
+    ****************************************************/
+    #countdownContainer {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: #0c0c0d;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 999999;
+      transition: opacity 1s ease;
+    }
+    #countdownContainer.fadeOut {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .countdown-title {
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+      color: #f0f0f0;
+    }
+    .countdown-timer {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 2rem;
+      color: #ffffff;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      display: flex;
+      gap: 1rem;
+    }
+    .countdown-segment {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 80px;
+      animation: fadeIn 0.8s ease;
+    }
+    .countdown-number {
+      font-weight: bold;
+      background: #141416;
+      padding: 0.6rem 1rem;
+      border-radius: 6px;
+      margin-bottom: 0.4rem;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+    .countdown-label {
+      font-size: 0.8rem;
+      color: #999;
+    }
+
+    /***************************************************
+      MAIN SITE (hidden until countdown ends)
+    ****************************************************/
+    #mainSite {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1s;
+    }
+    #mainSite.show {
+      opacity: 1;
+      pointer-events: all;
     }
 
     /* NAVIGATION */
@@ -163,58 +202,6 @@
     }
     .discord-btn:hover {
       background: #4852cc;
-    }
-
-    /* LOADING SCREEN (OPTIONAL) */
-    .loading-screen {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: #0c0c0d;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      z-index: 2000;
-      opacity: 1;
-      pointer-events: auto;
-      transition: opacity 0.6s ease;
-    }
-    .loading-screen.hide {
-      opacity: 0;
-      pointer-events: none;
-    }
-    .loading-title {
-      margin-bottom: 1rem;
-      font-size: 1.5rem;
-      color: #f0f0f0;
-    }
-    .loading-dots span {
-      display: inline-block;
-      width: 6px;
-      height: 6px;
-      margin: 0 4px;
-      background: #999;
-      border-radius: 50%;
-      animation: blink 1.4s infinite both;
-    }
-    .loading-dots span:nth-child(2) {
-      animation-delay: 0.2s;
-    }
-    .loading-dots span:nth-child(3) {
-      animation-delay: 0.4s;
-    }
-    @keyframes blink {
-      0%,
-      80%,
-      100% {
-        opacity: 0;
-      }
-      40% {
-        opacity: 1;
-      }
     }
 
     /* HERO SECTION */
@@ -373,15 +360,6 @@
     .success {
       color: #6bd76b;
     }
-    .loading-dots span {
-      display: inline-block;
-      width: 5px;
-      height: 5px;
-      margin: 0 2px;
-      background: #9c9c9c;
-      border-radius: 50%;
-      animation: blink 1.4s infinite both;
-    }
 
     /* FEATURES SECTION */
     .features {
@@ -428,7 +406,7 @@
       line-height: 1.5;
     }
 
-    /* FREE PLAN SECTION (Single Plan Called "Free") */
+    /* SINGLE FREE PLAN */
     .free {
       max-width: 1200px;
       margin: 0 auto;
@@ -586,277 +564,342 @@
   </style>
 </head>
 <body>
-  <!-- LOADING SCREEN -->
-  <div class="loading-screen" id="loadingScreen">
-    <div class="loading-title">Zephyra V2</div>
-    <div class="loading-dots">
-      <span></span><span></span><span></span>
+
+  <!-- COUNTDOWN CONTAINER -->
+  <div id="countdownContainer">
+    <div class="countdown-title">Site Unlocks In:</div>
+    <div class="countdown-timer" id="countdownTimer">
+      <!-- Each segment: days / hours / minutes / seconds -->
+      <div class="countdown-segment">
+        <div class="countdown-number" id="countDays">00</div>
+        <div class="countdown-label">days</div>
+      </div>
+      <div class="countdown-segment">
+        <div class="countdown-number" id="countHours">00</div>
+        <div class="countdown-label">hours</div>
+      </div>
+      <div class="countdown-segment">
+        <div class="countdown-number" id="countMinutes">00</div>
+        <div class="countdown-label">minutes</div>
+      </div>
+      <div class="countdown-segment">
+        <div class="countdown-number" id="countSeconds">00</div>
+        <div class="countdown-label">seconds</div>
+      </div>
     </div>
   </div>
 
-  <!-- NAVIGATION -->
-  <nav>
-    <div class="nav-container">
-      <div class="logo">
-        <i class="fas fa-bolt"></i>
-        <span>Zephyra V2</span>
-      </div>
-      <div class="nav-links">
-        <a href="#features">Features</a>
-        <a href="#free">Free</a>
-        <a href="#faq">FAQ</a>
-        <a href="https://discord.gg/yourinvite" class="discord-btn">
-          <i class="fab fa-discord"></i> Join Discord
-        </a>
-      </div>
-    </div>
-  </nav>
-
-  <!-- MAIN CONTENT -->
-  <main>
-    <!-- HERO SECTION -->
-    <section class="hero">
-      <div class="hero-content">
-        <div class="badge">🚀 VERSION 2.0</div>
-        <h1>
-          Unleash Your <span class="highlight">Potential.</span>
-        </h1>
-        <p class="hero-description">
-          Experience the most powerful and reliable Roblox executor with
-          unmatched features and stability — fully free, no key system required.
-        </p>
-        <div class="cta-group">
-          <button class="btn-primary glow-on-hover">
-            <i class="fas fa-download"></i>
-            Download Now
-          </button>
-          <!-- Remove or replace the second button as desired -->
-          <button class="btn-secondary glow-on-hover">
-            <i class="fas fa-book"></i>
-            Documentation
-          </button>
-        </div>
-        <div class="stats">
-          <!-- Easily change the number below -->
-          <div class="stat-item">
-            <span class="stat-number">1</span>
-            <span class="stat-label">Active User</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-number">99.9%</span>
-            <span class="stat-label">Success Rate</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-number">24/7</span>
-            <span class="stat-label">Support</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- TERMINAL SECTION -->
-    <section class="terminal-section">
-      <div class="terminal">
-        <div class="terminal-header">
-          <div class="terminal-buttons">
-            <span class="terminal-button red"></span>
-            <span class="terminal-button yellow"></span>
-            <span class="terminal-button green"></span>
-          </div>
-          <div class="terminal-title">Zephyra Executor</div>
-        </div>
-        <div class="terminal-content">
-          <div class="command-line">
-            <span class="prompt">$</span>
-            <span class="command">zephyra init</span>
-          </div>
-          <div class="response">Initializing Zephyra V2...</div>
-          <div class="command-line">
-            <span class="prompt">$</span>
-            <span class="command">zephyra load script.lua</span>
-          </div>
-          <div class="response success">Script loaded successfully!</div>
-          <div class="command-line">
-            <span class="prompt">$</span>
-            <span class="command">zephyra execute</span>
-          </div>
-          <div class="response">
-            <div class="loading-dots">
-              <span></span><span></span><span></span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- FEATURES SECTION -->
-    <section id="features" class="features">
-      <h2>Why Choose <span class="highlight">Zephyra V2?</span></h2>
-      <p class="features-subtitle">
-        Elevate your scripting experience with a sleek, black-themed interface
-        and top-tier performance — no key system needed.
-      </p>
-      <div class="features-grid">
-        <div class="feature-card transition">
+  <!-- MAIN SITE WRAPPER (initially hidden) -->
+  <div id="mainSite">
+    <!-- NAVIGATION -->
+    <nav>
+      <div class="nav-container">
+        <div class="logo">
           <i class="fas fa-bolt"></i>
-          <h3>Lightning Fast</h3>
-          <p>
-            Execute scripts instantly with our optimized injector, handling even
-            the most complex scripts effortlessly.
-          </p>
+          <span>Zephyra V2</span>
         </div>
-        <div class="feature-card transition">
-          <i class="fas fa-shield-alt"></i>
-          <h3>Secure & Safe</h3>
-          <p>
-            Stay protected with robust security that keeps Zephyra V2 undetected
-            against Roblox’s defenses.
-          </p>
-        </div>
-        <div class="feature-card transition">
-          <i class="fas fa-code"></i>
-          <h3>Built-in Editor</h3>
-          <p>
-            Quickly modify scripts on the fly with our integrated code editor,
-            perfect for custom tweaks.
-          </p>
-        </div>
-        <div class="feature-card transition">
-          <i class="fas fa-sync"></i>
-          <h3>Auto Updates</h3>
-          <p>
-            Keep everything up to date automatically, ensuring maximum
-            compatibility and performance.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- SINGLE FREE PLAN -->
-    <section id="free" class="free">
-      <h2>Completely <span class="highlight">Free</span></h2>
-      <p class="free-subtitle">
-        No hidden fees, no locked features. Zephyra V2 is entirely free to use.
-      </p>
-      <div class="free-card transition">
-        <h3>Free</h3>
-        <div class="price">$0.00<span style="font-size: 1rem;"> / forever</span></div>
-        <ul class="free-features-list">
-          <li><i class="fas fa-check"></i> Full Script Execution</li>
-          <li><i class="fas fa-check"></i> Built-in Script Hub</li>
-          <li><i class="fas fa-check"></i> 24/7 Support</li>
-          <li><i class="fas fa-check"></i> Auto Updates</li>
-          <li><i class="fas fa-check"></i> No Key System Required</li>
-        </ul>
-        <button class="btn-primary glow-on-hover">
-          Download Zephyra
-        </button>
-      </div>
-    </section>
-
-    <!-- FAQ SECTION -->
-    <section id="faq" class="faq">
-      <h2>Frequently Asked <span class="highlight">Questions.</span></h2>
-      <p class="faq-subtitle">
-        Everything you need to know about Zephyra V2.
-      </p>
-      <div class="faq-grid">
-        <div class="faq-item">
-          <button class="faq-question">
-            <span>What is Zephyra V2?</span>
-            <i class="fas fa-chevron-down"></i>
-          </button>
-          <div class="faq-answer">
-            <p>
-              Zephyra V2 is an advanced Roblox executor built for speed and simplicity, 
-              allowing you to run scripts effortlessly with no key system required.
-            </p>
-          </div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-question">
-            <span>How fast does it inject scripts?</span>
-            <i class="fas fa-chevron-down"></i>
-          </button>
-          <div class="faq-answer">
-            <p>
-              Almost instantly for most scripts. Even large or complex scripts 
-              typically take just a second or two to load and run.
-            </p>
-          </div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-question">
-            <span>Is it truly free?</span>
-            <i class="fas fa-chevron-down"></i>
-          </button>
-          <div class="faq-answer">
-            <p>
-              Yes! All of Zephyra V2’s features are completely free, with no 
-              hidden upgrades or paywalls.
-            </p>
-          </div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-question">
-            <span>Is it safe to use?</span>
-            <i class="fas fa-chevron-down"></i>
-          </button>
-          <div class="faq-answer">
-            <p>
-              Absolutely. We maintain robust security measures to keep Zephyra V2
-              undetected and safe for everyday scripting.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div class="footer-content">
-      <div class="footer-brand">
-        <h3>Zephyra V2</h3>
-        <p>
-          The future of Roblox scripting — faster, safer, and entirely free for everyone.
-        </p>
-      </div>
-      <div class="footer-links">
-        <div class="footer-column">
-          <h4>Product</h4>
+        <div class="nav-links">
           <a href="#features">Features</a>
           <a href="#free">Free</a>
           <a href="#faq">FAQ</a>
-        </div>
-        <div class="footer-column">
-          <h4>Resources</h4>
-          <a href="#scripts">Script Hub</a>
-          <a href="#docs">Documentation</a>
-          <a href="#support">Support</a>
-        </div>
-        <div class="footer-column">
-          <h4>Legal</h4>
-          <a href="#terms">Terms of Service</a>
-          <a href="#privacy">Privacy Policy</a>
+          <a href="https://discord.gg/yourinvite" class="discord-btn">
+            <i class="fab fa-discord"></i> Join Discord
+          </a>
         </div>
       </div>
-    </div>
-    <div class="footer-bottom">
-      <p>&copy; 2025 Zephyra V2. All rights reserved.</p>
-    </div>
-  </footer>
+    </nav>
 
-  <!-- OPTIONAL: JavaScript for FAQ Accordion + Loading Screen -->
+    <!-- MAIN CONTENT -->
+    <main>
+      <!-- HERO SECTION -->
+      <section class="hero">
+        <div class="hero-content">
+          <div class="badge">🚀 VERSION 2.0</div>
+          <h1>
+            Unleash Your <span class="highlight">Potential.</span>
+          </h1>
+          <p class="hero-description">
+            Experience the most powerful and reliable Roblox executor with
+            unmatched features and stability — fully free, no key system required.
+          </p>
+          <div class="cta-group">
+            <button class="btn-primary glow-on-hover">
+              <i class="fas fa-download"></i>
+              Download Now
+            </button>
+            <button class="btn-secondary glow-on-hover">
+              <i class="fas fa-book"></i>
+              Documentation
+            </button>
+          </div>
+          <div class="stats">
+            <div class="stat-item">
+              <span class="stat-number">1</span>
+              <span class="stat-label">Active User</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number">99.9%</span>
+              <span class="stat-label">Success Rate</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number">24/7</span>
+              <span class="stat-label">Support</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TERMINAL SECTION -->
+      <section class="terminal-section">
+        <div class="terminal">
+          <div class="terminal-header">
+            <div class="terminal-buttons">
+              <span class="terminal-button red"></span>
+              <span class="terminal-button yellow"></span>
+              <span class="terminal-button green"></span>
+            </div>
+            <div class="terminal-title">Zephyra Executor</div>
+          </div>
+          <div class="terminal-content">
+            <div class="command-line">
+              <span class="prompt">$</span>
+              <span class="command">zephyra init</span>
+            </div>
+            <div class="response">Initializing Zephyra V2...</div>
+            <div class="command-line">
+              <span class="prompt">$</span>
+              <span class="command">zephyra load script.lua</span>
+            </div>
+            <div class="response success">Script loaded successfully!</div>
+            <div class="command-line">
+              <span class="prompt">$</span>
+              <span class="command">zephyra execute</span>
+            </div>
+            <div class="response">
+              <div style="display:inline-block;">
+                <span>.</span><span>.</span><span>.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FEATURES SECTION -->
+      <section id="features" class="features">
+        <h2>Why Choose <span class="highlight">Zephyra V2?</span></h2>
+        <p class="features-subtitle">
+          Elevate your scripting experience with a sleek, black-themed interface
+          and top-tier performance — no key system needed.
+        </p>
+        <div class="features-grid">
+          <div class="feature-card transition">
+            <i class="fas fa-bolt"></i>
+            <h3>Lightning Fast</h3>
+            <p>
+              Execute scripts instantly with our optimized injector, handling even
+              the most complex scripts effortlessly.
+            </p>
+          </div>
+          <div class="feature-card transition">
+            <i class="fas fa-shield-alt"></i>
+            <h3>Secure & Safe</h3>
+            <p>
+              Stay protected with robust security that keeps Zephyra V2 undetected
+              against Roblox’s defenses.
+            </p>
+          </div>
+          <div class="feature-card transition">
+            <i class="fas fa-code"></i>
+            <h3>Built-in Editor</h3>
+            <p>
+              Quickly modify scripts on the fly with our integrated code editor,
+              perfect for custom tweaks.
+            </p>
+          </div>
+          <div class="feature-card transition">
+            <i class="fas fa-sync"></i>
+            <h3>Auto Updates</h3>
+            <p>
+              Keep everything up to date automatically, ensuring maximum
+              compatibility and performance.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SINGLE FREE PLAN -->
+      <section id="free" class="free">
+        <h2>Completely <span class="highlight">Free</span></h2>
+        <p class="free-subtitle">
+          No hidden fees, no locked features. Zephyra V2 is entirely free to use.
+        </p>
+        <div class="free-card transition">
+          <h3>Free</h3>
+          <div class="price">$0.00<span style="font-size: 1rem;"> / forever</span></div>
+          <ul class="free-features-list">
+            <li><i class="fas fa-check"></i> Full Script Execution</li>
+            <li><i class="fas fa-check"></i> Built-in Script Hub</li>
+            <li><i class="fas fa-check"></i> 24/7 Support</li>
+            <li><i class="fas fa-check"></i> Auto Updates</li>
+            <li><i class="fas fa-check"></i> No Key System Required</li>
+          </ul>
+          <button class="btn-primary glow-on-hover">
+            Download Zephyra
+          </button>
+        </div>
+      </section>
+
+      <!-- FAQ SECTION -->
+      <section id="faq" class="faq">
+        <h2>Frequently Asked <span class="highlight">Questions.</span></h2>
+        <p class="faq-subtitle">
+          Everything you need to know about Zephyra V2.
+        </p>
+        <div class="faq-grid">
+          <div class="faq-item">
+            <button class="faq-question">
+              <span>What is Zephyra V2?</span>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="faq-answer">
+              <p>
+                Zephyra V2 is an advanced Roblox executor built for speed and simplicity, 
+                allowing you to run scripts effortlessly with no key system required.
+              </p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-question">
+              <span>How fast does it inject scripts?</span>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="faq-answer">
+              <p>
+                Almost instantly for most scripts. Even large or complex scripts 
+                typically take just a second or two to load and run.
+              </p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-question">
+              <span>Is it truly free?</span>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="faq-answer">
+              <p>
+                Yes! All of Zephyra V2’s features are completely free, with no 
+                hidden upgrades or paywalls.
+              </p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-question">
+              <span>Is it safe to use?</span>
+              <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="faq-answer">
+              <p>
+                Absolutely. We maintain robust security measures to keep Zephyra V2
+                undetected and safe for everyday scripting.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <h3>Zephyra V2</h3>
+          <p>
+            The future of Roblox scripting — faster, safer, and entirely free for everyone.
+          </p>
+        </div>
+        <div class="footer-links">
+          <div class="footer-column">
+            <h4>Product</h4>
+            <a href="#features">Features</a>
+            <a href="#free">Free</a>
+            <a href="#faq">FAQ</a>
+          </div>
+          <div class="footer-column">
+            <h4>Resources</h4>
+            <a href="#scripts">Script Hub</a>
+            <a href="#docs">Documentation</a>
+            <a href="#support">Support</a>
+          </div>
+          <div class="footer-column">
+            <h4>Legal</h4>
+            <a href="#terms">Terms of Service</a>
+            <a href="#privacy">Privacy Policy</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Zephyra V2. All rights reserved.</p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- JavaScript for Countdown + FAQ Accordion -->
   <script>
-    // Hide the loading screen after a short delay
-    window.addEventListener("load", () => {
-      setTimeout(() => {
-        document.getElementById("loadingScreen").classList.add("hide");
-      }, 1200);
-    });
+    // =====================================================
+    // COUNTDOWN TO March 31, 2025 @ 18:00 CEST (GMT+2)
+    // =====================================================
+    const countdownContainer = document.getElementById("countdownContainer");
+    const mainSite = document.getElementById("mainSite");
 
+    const countDays = document.getElementById("countDays");
+    const countHours = document.getElementById("countHours");
+    const countMinutes = document.getElementById("countMinutes");
+    const countSeconds = document.getElementById("countSeconds");
+
+    // Target Date: 31 Mar 2025 18:00:00 GMT+2
+    // You can specify like "Mar 31, 2025 18:00:00 GMT+0200":
+    const targetDate = new Date("Mar 31, 2025 18:00:00 GMT+0200").getTime();
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = targetDate - now;
+
+      if (distance <= 0) {
+        // Time is up: fade out the countdown & show site
+        countdownContainer.classList.add("fadeOut");
+        // Wait for the fadeOut transition, then hide countdown container
+        setTimeout(() => {
+          countdownContainer.style.display = "none";
+          mainSite.classList.add("show");
+        }, 1000);
+        // Stop the interval
+        clearInterval(countdownInterval);
+        return;
+      }
+
+      // Calculate days, hours, minutes, seconds
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor(
+        (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+      );
+      const minutes = Math.floor(
+        (distance % (1000 * 60 * 60)) / (1000 * 60)
+      );
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      // Update the DOM with zero-padded values
+      countDays.textContent = String(days).padStart(2, "0");
+      countHours.textContent = String(hours).padStart(2, "0");
+      countMinutes.textContent = String(minutes).padStart(2, "0");
+      countSeconds.textContent = String(seconds).padStart(2, "0");
+    }
+
+    const countdownInterval = setInterval(updateCountdown, 1000);
+    updateCountdown(); // initial call to avoid 1s delay
+
+    // =====================================================
     // Simple FAQ toggle
+    // =====================================================
     document.querySelectorAll(".faq-item").forEach((item) => {
       const question = item.querySelector(".faq-question");
       question.addEventListener("click", () => {
