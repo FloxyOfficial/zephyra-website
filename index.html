@@ -567,6 +567,19 @@
 
   <!-- COUNTDOWN CONTAINER -->
   <div id="countdownContainer">
+    <!-- EMBEDDED YOUTUBE MUSIC (ATTEMPT AUTOPLAY) -->
+    <!-- Mute is set to 0, but most browsers block audio autoplay. 
+         Users may need to click or allow. Adjust "mute=1" if you'd rather be sure it plays silently. -->
+    <iframe
+      id="musicFrame"
+      width="0"
+      height="0"
+      src="https://www.youtube.com/embed/huEOLsZ9m9U?autoplay=1&loop=1&playlist=huEOLsZ9m9U&mute=0"
+      frameborder="0"
+      allow="autoplay; encrypted-media"
+      style="position:absolute; top:-9999px; left:-9999px;"
+    ></iframe>
+
     <div class="countdown-title">Zephyra V2 Release In:</div>
     <div class="countdown-timer" id="countdownTimer">
       <!-- Each segment: days / hours / minutes / seconds -->
