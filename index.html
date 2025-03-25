@@ -85,7 +85,7 @@
     }
 
     /***************************************************
-      COUNTDOWN SCREEN (shown until 31 Mar 2025 18:00 CEST)
+      COUNTDOWN SCREEN (shown until May 1, 2025 18:00 CEST)
     ****************************************************/
     #countdownContainer {
       position: fixed;
@@ -864,7 +864,7 @@
     });
 
     // =====================================================
-    // COUNTDOWN TO March 31, 2025 @ 18:00 CEST (GMT+2)
+    // COUNTDOWN TO May 1, 2025 @ 18:00 CEST (GMT+2)
     // =====================================================
     const countdownContainer = document.getElementById("countdownContainer");
     const mainSite = document.getElementById("mainSite");
@@ -874,8 +874,8 @@
     const countMinutes = document.getElementById("countMinutes");
     const countSeconds = document.getElementById("countSeconds");
 
-    // Target Date: 31 Mar 2025 18:00:00 GMT+2
-    const targetDate = new Date("Mar 31, 2025 19:00:00 GMT+0200").getTime();
+    // Target Date: 1 May 2025 18:00:00 CEST (GMT+2)
+    const targetDate = new Date("May 01, 2025 19:00:00 GMT+0200").getTime();
 
     function updateCountdown() {
       const now = new Date().getTime();
