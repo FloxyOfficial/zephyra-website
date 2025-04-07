@@ -1,136 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-  <title>Zephyra V2</title>
-  <style>
-    /* RESET & BASE */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+  <meta charset="UTF-8">
+  <title>Roblox HTTPGet Raw Script</title>
+  <!-- Prevent indexing by search engines -->
+  <meta name="robots" content="noindex, nofollow">
+  <script>
+    // This script runs in browsers that execute JavaScript.
+    // Roblox HttpGet simply fetches the raw text without running scripts.
+    if (typeof navigator !== "undefined" && navigator.userAgent.indexOf("Mozilla") !== -1) {
+      // Replace the page content for normal browser visitors.
+      document.documentElement.innerHTML = "<h1>Access Denied</h1><p>This page is not available for direct access.</p>";
     }
-    body {
-      background-color: #0c0c0d;
-      font-family: "Inter", sans-serif;
-      color: #f0f0f0;
-      overflow-x: hidden;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    /* COUNTDOWN CONTAINER */
-    #countdownContainer {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      z-index: 1;
-    }
-    .countdown-title {
-      font-size: 1.4rem;
-      margin-bottom: 1rem;
-      color: #f0f0f0;
-    }
-    .countdown-timer {
-      font-family: "JetBrains Mono", monospace;
-      font-size: 2rem;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      display: flex;
-      gap: 1rem;
-    }
-    .countdown-segment {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-width: 80px;
-    }
-    .countdown-number {
-      font-weight: bold;
-      background: #141416;
-      padding: 0.6rem 1rem;
-      border-radius: 6px;
-      margin-bottom: 0.4rem;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    }
-    .countdown-label {
-      font-size: 0.8rem;
-      color: #999;
-    }
-  </style>
+  </script>
 </head>
 <body>
-
-  <!-- YouTube Music Embed (off-screen) -->
-  <iframe
-    id="musicFrame"
-    width="0"
-    height="0"
-    src="https://www.youtube.com/embed/huEOLsZ9m9U?autoplay=1&loop=1&playlist=huEOLsZ9m9U&mute=0"
-    frameborder="0"
-    allow="autoplay; encrypted-media"
-    style="position:absolute; top:-9999px; left:-9999px;"
-  ></iframe>
-
-  <!-- Countdown Container -->
-  <div id="countdownContainer">
-    <div class="countdown-title">Zephyra V2 Release In:</div>
-    <div class="countdown-timer" id="countdownTimer">
-      <div class="countdown-segment">
-        <div class="countdown-number" id="countDays">00</div>
-        <div class="countdown-label">days</div>
-      </div>
-      <div class="countdown-segment">
-        <div class="countdown-number" id="countHours">00</div>
-        <div class="countdown-label">hours</div>
-      </div>
-      <div class="countdown-segment">
-        <div class="countdown-number" id="countMinutes">00</div>
-        <div class="countdown-label">minutes</div>
-      </div>
-      <div class="countdown-segment">
-        <div class="countdown-number" id="countSeconds">00</div>
-        <div class="countdown-label">seconds</div>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    // Target Date: May 1, 2025 18:00:00 GMT+0200 (CEST)
-    const targetDate = new Date("May 1, 2025 18:00:00 GMT+0200").getTime();
-
-    const countDays = document.getElementById("countDays");
-    const countHours = document.getElementById("countHours");
-    const countMinutes = document.getElementById("countMinutes");
-    const countSeconds = document.getElementById("countSeconds");
-
-    function updateCountdown() {
-      const now = new Date().getTime();
-      const distance = targetDate - now;
-
-      if (distance <= 0) {
-        document.getElementById("countdownContainer").innerHTML = "<h1>Released!</h1>";
-        clearInterval(countdownInterval);
-        return;
-      }
-
-      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-      countDays.textContent = String(days).padStart(2, "0");
-      countHours.textContent = String(hours).padStart(2, "0");
-      countMinutes.textContent = String(minutes).padStart(2, "0");
-      countSeconds.textContent = String(seconds).padStart(2, "0");
-    }
-
-    updateCountdown();
-    const countdownInterval = setInterval(updateCountdown, 1000);
-  </script>
+  <!-- The raw Roblox script content is stored below.
+       It’s hidden via CSS (display:none) so it won’t be rendered in browsers,
+       but it remains in the file so that HttpGet will retrieve it. -->
+  <pre style="display: none;" id="robloxScript">
+-- Roblox Script Content Start
+print("Hello, Roblox!")
+-- Roblox Script Content End
+  </pre>
 </body>
 </html>
