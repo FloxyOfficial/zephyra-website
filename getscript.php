@@ -1,5 +1,5 @@
 <?php
-$scriptFile = '/path/to/protected/roblox_script.txt';
+$scriptFile = __DIR__ . '/Protected_4174647752688388.txt';
 if (file_exists($scriptFile)) {
     header('Content-Type: text/plain');
     readfile($scriptFile);
